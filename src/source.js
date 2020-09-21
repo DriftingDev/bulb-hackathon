@@ -38,6 +38,7 @@ async function domQuery(selectedMonth) {
 //queries the ABC site to build a list of plants according to the passed month and region.
 async function getVeggieList(region, month) {
   let abcUrl = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
+  console.log(proxyURL + abcUrl);
   let queryDOM = await fetch(proxyURL + abcUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
