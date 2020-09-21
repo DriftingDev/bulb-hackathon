@@ -7,16 +7,68 @@
             </title>
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
         <link rel="stylesheet" type="text/css" href="styles.css"/> 
-        <!-- bootstrap -->
-        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> -->
+        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         
     </head>
 
     <body>
         <h1>Plant</h1>
-        <script src='main.js'></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <!-- <script src='plant.js'></script> -->
+        Month/region:
+        <p class="description"> </p>
+        Info points:
+        Calculator:
+        Date:
+
+        <script>
+            let description = document.querySelector(".description") 
+
+
+
+            const proxyURL = "https://cors-anywhere.herokuapp.com/"
+            let url = "https://www.growstuff.org/crops"
+            // fetch(proxyURL + url)
+            // fetch(proxyURL+url)
+            //     .then(response => response.json())
+            //     .then(data => console.log("scientific name", data.scientific_name))
+            //     .then(data => console.log("name", data.name))
+            //     .then(data => console.log("descritpion", data.description))
+            //     ;
+     
+
+            // CORS issue
+            // $.getJSON({ 
+            //     "url": "https://www.growstuff.org/crops.json", 
+            //     "crossDomain": true,      
+            //     "headers": {
+            //         "accept": "application/json",
+            //          "Access-Control-Allow-Origin": "*"
+            //      } 
+            //     }, (plant) => {
+            //         console.log(plant.name);
+            //     });
+
+            $.getJSON(`${proxyURL+url}/30.json`, (plant) => {
+            // $.getJSON(`${proxyURL+url}`, (plant) => {
+            console.log("name:", plant.name);
+            console.log("scientific name:", plant.scientific_names[0].name);
+            console.log("description:", plant.openfarm_data.attributes.description);
+            description.textContent = plant.openfarm_data.attributes.description;
+            console.log("pic url:", plant.openfarm_data.attributes.main_image_path);
+            console.log("spacing:", plant.openfarm_data.attributes.row_spacing);
+            console.log("height:", plant.openfarm_data.attributes.height);
+            console.log("sun:", plant.openfarm_data.attributes.sun_requirements);
+
+            console.log("planting:", plant.openfarm_data.attributes.sowing_method);
+            console.log("first harvest:", plant.median_days_to_first_harvest);
+
+            console.log("last harvest:", plant.median_days_to_last_harvest);
+
+            console.log(plant)
+
+        });
+
+        </script>
     </body>
 </html>
