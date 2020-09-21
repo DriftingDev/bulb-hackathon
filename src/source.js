@@ -103,7 +103,7 @@ async function searcher(term) {
   }
 }
 
-//Retreives the params and returns the data or a null value
+//Retrieves the params and returns the data or a null value
 var getParamsAndLoad = function (url) {
 	params = {};
 	var parser = document.createElement('a');
