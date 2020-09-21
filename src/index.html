@@ -15,10 +15,12 @@
     <button type="button">?</button> <!-- User can find out what region they are in using a popup here -->
 
     <select name="region" id="region">
+      <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
       <option value="arid">Arid</option>
       <option value="tropical">Tropical</option>
       <option value="subtropical">Subtropical</option>
       <option value="temperate">Temperate</option>
+      <option value="cool">Cool</option>
     </select>
   </form>
 
@@ -28,6 +30,7 @@
     <button type="button">?</button> <!-- User can choose which month of planting they wish to see here --> 
     
     <select name="month" id="month">
+      <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
       <option value="jan">January</option>
       <option value="feb">February</option>
       <option value="mar">March</option>
@@ -42,6 +45,10 @@
       <option value="dec">December</option>
     </select>
   </form>
+
+  <ul id="plantResults">
+
+  </ul>
 
   <script src="source.js"></script>
 </body>
