@@ -13,28 +13,40 @@
     </head>
 
     <body>
-        <h1 class="name">Plant</h1>
-        <img class="image" src="" />
+        <h1 class="plantName">Plant</h1>
+        <div class="imageWrapper">
+            <img class="image" src="" />
+
+        </div>
         <script src='plant.js'></script>
-        <p class="name"> </p>
         <div class="scientificName"> </div>
-        <div class="description"> </div>
-        <div class="spacing"> </div>
-        <div class= "height"></div>
+        <div class="plantDescription"> </div>
+        <div class="spacingDisp"> </div>
+        <div class= "plantHeight"></div>
         <div class= "sun"></div>
         <div class= "sowingMethod"></div>
         <div class= "harvest"></div>
         
         Month/region:
         Calculator:
-        Date:
+        <div class="areaCalculator">
+            <label for="area-calculator">Garden bed size: </label>
+            <input type="text" id="area-calculator" name="area-calculator" size="10">cm2
+            <button class="area-calculator-button">calculate area</button>
+            <div class="displayArea" />
+        </div>
+
+        <label for="dateCalculator">Planting Date:</label>
+        <input type="date" id="date-calculator" name="date-calculator" size="10">
+        <button class="date-calculator-button">calculate harvest date</button>
+        <div class="displayDate" />
 
         <script>
-            let name = document.querySelector(".name");
-            let description = document.querySelector(".description");
+            let plantName = document.querySelector(".plantName");
+            let plantDescription = document.querySelector(".plantDescription");
             let image = document.querySelector(".image")
-            let spacing = document.querySelector(".spacing")
-            let height = document.querySelector(".height")
+            let spacingDisp = document.querySelector(".spacingDisp")
+            let plantHeight = document.querySelector(".plantHeight")
             let sun = document.querySelector(".sun")
             let scientificName = document.querySelector(".scientificName");
             let sowingMethod = document.querySelector(".sowingMethod");
@@ -43,48 +55,49 @@
 
             const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
             let url = "https://www.growstuff.org/crops"
-            // fetch(proxyURL + url)
-            // fetch(proxyURL+url)
-            //     .then(response => response.json())
-            //     .then(data => console.log("scientific name", data.scientific_name))
-            //     .then(data => console.log("name", data.name))
-            //     .then(data => console.log("description", data.description))
-            //     ;
-     
 
-            // CORS issue
-            // $.getJSON({ 
-            //     "url": "https://www.growstuff.org/crops.json", 
-            //     "crossDomain": true,      
-            //     "headers": {
-            //         "accept": "application/json",
-            //          "Access-Control-Allow-Origin": "*"
-            //      } 
-            //     }, (plant) => {
-            //         console.log(plant.name);
-            //     });
+            let spacingCalc;
+            let dateCalc;
  
-            $.getJSON(`${proxyURL+url}/113.json`, (plant) => {
-            // $.getJSON(`${apiQueries}`, (plant) => {
-                name.textContent = plant.name;
-                scientificName.textContent = `Scientific name: ${plant.scientific_names[0].name}`;
-                description.textContent = `Description: ${plant.openfarm_data.attributes.description}`;
-                image.src = plant.openfarm_data.attributes.main_image_path;
-                let spaceNeeded = plant.openfarm_data.attributes.row_spacing;
-                spacing.textContent = `Spacing: ${spaceNeeded}cm`;
-                height.textContent = `Height: ${plant.openfarm_data.attributes.height}cm`;
-                sun.textContent = `Sun requirements: ${plant.openfarm_data.attributes.sun_requirements}`;
-                sowingMethod.textContent = `Sowing method: ${plant.openfarm_data.attributes.sowing_method}`;
-                harvest.textContent = `Harvest from: ${plant.median_days_to_first_harvest} days`;
+            $.getJSON(`${proxyURL+url}/113.json`, ({ name, openfarm_data: { attributes }, median_days_to_first_harvest, scientific_names }) => {
+                const { description, height, sun_requirements, sowing_method, main_image_path, row_spacing } = attributes;
+                spacingCalc = row_spacing;
+                dateCalc = median_days_to_first_harvest;
+                plantName.textContent = name;
+                scientificName.textContent = `Scientific name: ${scientific_names[0].name}`;
+                plantDescription.textContent = `Description: ${description}`;
+                image.src = main_image_path;
+                spacingDisp.textContent = `Spacing: ${row_spacing}cm`;
+                plantHeight.textContent = `Height: ${height}cm`;
+                sun.textContent = `Sun requirements: ${sun_requirements}`;
+                sowingMethod.textContent = `Sowing method: ${sowing_method}`;
+                harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
 
             });
 
-            function calculator() {
-                $.getJSON(`${proxyURL+url}/2.json`, (plant) => {
-                    let spaceNeeded = plant.openfarm_data.attributes.row_spacing;
-                });
-                console.log(spaceNeeded)
+            const areaButton = document.querySelector('.area-calculator-button');
+            const inputForArea = document.querySelector('#area-calculator');
+
+            const areaCalculator = (area, space) => {
+
+                return area / space
+            };
+
+            areaButton.addEventListener('click', () => document.querySelector('.displayArea').innerHTML = areaCalculator(inputForArea.value, spacingCalc));
+
+
+            const dateButton = document.querySelector('.date-calculator-button');
+            const inputForDate = document.querySelector('#date-calculator');
+
+
+            const harvestCalc = function(date) {
+                const formatDate = new Date(date);
+                const dateToHarvest = new Date(formatDate.setDate(formatDate.getDate() + dateCalc))
+                return dateToHarvest.toDateString();
             }
+
+            dateButton.addEventListener('click', () => document.querySelector('.displayDate').innerHTML = harvestCalc(inputForDate.value));
+
         
         </script>
     </body>
