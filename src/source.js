@@ -1,15 +1,33 @@
+let list = document.querySelector("#plantResults");
+
 async function domQuery(selectedMonth) {
   let selectedRegion = document.querySelector("#region").value
-  console.log(selectedRegion);
-  console.log(selectedMonth);
-  veggieList = await getVeggieList(selectedRegion, selectedMonth);
-  
-  
+  try {
+    veggieList = await getVeggieList(selectedRegion, selectedMonth);
+    
+    list.innerHTML = ""
+    veggieList.forEach((item) => {
+      listItem = document.createElement("li")
+
+      itemLink = document.createElement("a")
+      itemLink.href = `plant.html?plant=${item}`
+      itemLink.innerText = item
+      
+      listItem.appendChild(itemLink)
+      list.appendChild(listItem);
+    })
+  } catch {
+    list.innerHTML = ""
+
+    error = document.createElement("h2")
+    error.innerText = "There was an error! Try again in a minute";
+    list.appendChild(error);
+  }
 }
 
 async function getVeggieList(region, month) {
   let domParser = new DOMParser()
-  const proxyURL = "https://cors-anywhere.herokuapp.com/"
+  const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
   let url = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
   let queryDOM = await fetch(proxyURL + url)
     .then(resp => resp.text())
@@ -35,4 +53,10 @@ async function getVeggieList(region, month) {
 
   let plantList = Array.from(queryDOM.querySelector("#comp-rich-text5").querySelectorAll("a"));
   return plantList.map(a => a.innerText)
+  
+}
+
+let resetMonth = () => {
+  document.querySelector("#month").value = "nil"
+  list.innerHTML = ""
 }
