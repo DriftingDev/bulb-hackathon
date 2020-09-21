@@ -3,37 +3,52 @@
     <head>
         <meta charset='utf-8'>
         <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-            <title>Page Title
+            <title>Plant
             </title>
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
-        <link rel="stylesheet" type="text/css" href="styles.css"/> 
+        <link rel="stylesheet" type="text/css" href="style.css"/> 
         <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         
     </head>
 
     <body>
-        <h1>Plant</h1>
-        <!-- <script src='plant.js'></script> -->
+        <h1 class="name">Plant</h1>
+        <img class="image" src="" />
+        <script src='plant.js'></script>
+        <p class="name"> </p>
+        <div class="scientificName"> </div>
+        <div class="description"> </div>
+        <div class="spacing"> </div>
+        <div class= "height"></div>
+        <div class= "sun"></div>
+        <div class= "sowingMethod"></div>
+        <div class= "harvest"></div>
+        
         Month/region:
-        <p class="description"> </p>
-        Info points:
         Calculator:
         Date:
 
         <script>
-            let description = document.querySelector(".description") 
+            let name = document.querySelector(".name");
+            let description = document.querySelector(".description");
+            let image = document.querySelector(".image")
+            let spacing = document.querySelector(".spacing")
+            let height = document.querySelector(".height")
+            let sun = document.querySelector(".sun")
+            let scientificName = document.querySelector(".scientificName");
+            let sowingMethod = document.querySelector(".sowingMethod");
+            let harvest = document.querySelector(".harvest");
 
 
-
-            const proxyURL = "https://cors-anywhere.herokuapp.com/"
+            const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
             let url = "https://www.growstuff.org/crops"
             // fetch(proxyURL + url)
             // fetch(proxyURL+url)
             //     .then(response => response.json())
             //     .then(data => console.log("scientific name", data.scientific_name))
             //     .then(data => console.log("name", data.name))
-            //     .then(data => console.log("descritpion", data.description))
+            //     .then(data => console.log("description", data.description))
             //     ;
      
 
@@ -48,27 +63,32 @@
             //     }, (plant) => {
             //         console.log(plant.name);
             //     });
+ 
+            $.getJSON(`${proxyURL+url}/113.json`, (plant) => {
+            // $.getJSON(`${apiQueries}`, (plant) => {
+                name.textContent = plant.name;
+                scientificName.textContent = `Scientific name: ${plant.scientific_names[0].name}`;
+                description.textContent = `Description: ${plant.openfarm_data.attributes.description}`;
+                image.src = plant.openfarm_data.attributes.main_image_path;
+                let spaceNeeded = plant.openfarm_data.attributes.row_spacing;
+                spacing.textContent = `Spacing: ${spaceNeeded}cm`;
+                height.textContent = `Height: ${plant.openfarm_data.attributes.height}cm`;
+                sun.textContent = `Sun requirements: ${plant.openfarm_data.attributes.sun_requirements}`;
+                sowingMethod.textContent = `Sowing method: ${plant.openfarm_data.attributes.sowing_method}`;
+                harvest.textContent = `Harvest from: ${plant.median_days_to_first_harvest} days`;
 
-            $.getJSON(`${proxyURL+url}/30.json`, (plant) => {
-            // $.getJSON(`${proxyURL+url}`, (plant) => {
-            console.log("name:", plant.name);
-            console.log("scientific name:", plant.scientific_names[0].name);
-            console.log("description:", plant.openfarm_data.attributes.description);
-            description.textContent = plant.openfarm_data.attributes.description;
-            console.log("pic url:", plant.openfarm_data.attributes.main_image_path);
-            console.log("spacing:", plant.openfarm_data.attributes.row_spacing);
-            console.log("height:", plant.openfarm_data.attributes.height);
-            console.log("sun:", plant.openfarm_data.attributes.sun_requirements);
+            });
 
-            console.log("planting:", plant.openfarm_data.attributes.sowing_method);
-            console.log("first harvest:", plant.median_days_to_first_harvest);
-
-            console.log("last harvest:", plant.median_days_to_last_harvest);
-
-            console.log(plant)
-
-        });
-
+            function calculator() {
+                $.getJSON(`${proxyURL+url}/2.json`, (plant) => {
+                    let spaceNeeded = plant.openfarm_data.attributes.row_spacing;
+                });
+                console.log(spaceNeeded)
+            }
+        
         </script>
     </body>
-</html>
+    </html>
+    <!-- // start of dynamic page, if data exists then do this:
+    // if doesn't exist then display"not found" or whatever" 
+region and month, name (from ABC site) will come through in params-->
