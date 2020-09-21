@@ -37,8 +37,8 @@ async function domQuery(selectedMonth) {
 
 //queries the ABC site to build a list of plants according to the passed month and region.
 async function getVeggieList(region, month) {
-  let url = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
-  let queryDOM = await fetch(proxyURL + url)
+  let abcUrl = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
+  let queryDOM = await fetch(proxyURL + abcUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
   
@@ -46,8 +46,8 @@ async function getVeggieList(region, month) {
   let filteredList = linkList.filter(a => new RegExp("\\b" + region + "\\b").test(a.href));
   let link = filteredList[0].href.slice(21);
 
-  url = "https://www.abc.net.au" + link;
-  queryDOM = await fetch(proxyURL + url)
+  abcUrl = "https://www.abc.net.au" + link;
+  queryDOM = await fetch(proxyURL + abcUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
@@ -55,8 +55,8 @@ async function getVeggieList(region, month) {
   filteredList = linkList.filter(a => new RegExp("\\b" + month + "\\b").test(a.href));
   link = filteredList[0].href.slice(21);
   
-  url = "https://www.abc.net.au" + link;
-  queryDOM = await fetch(proxyURL + url)
+  abcUrl = "https://www.abc.net.au" + link;
+  queryDOM = await fetch(proxyURL + abcUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
@@ -140,10 +140,10 @@ async function listSearcher(params) {
 }
 
 //Retrieves the params and returns the data or a null value
-var getParams = function (url) {
+var getParams = function (windowUrl) {
 	params = {};
 	var parser = document.createElement('a');
-	parser.href = url;
+	parser.href = windowUrl;
 	var query = parser.search.substring(1);
 	var vars = query.split('&');
 	for (var i = 0; i < vars.length; i++) {
