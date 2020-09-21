@@ -14,7 +14,7 @@
 
     <button type="button">?</button> <!-- User can find out what region they are in using a popup here -->
 
-    <select name="region" id="region">
+    <select name="region" id="region" onchange="resetMonth()">
       <option value="nil" disabled>Select one--</option> <!-- When a user selects, remove this option --> 
       <option value="arid">Arid</option>
       <option value="tropical">Tropical</option>
