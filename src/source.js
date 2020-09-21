@@ -19,7 +19,7 @@ async function domQuery(selectedMonth) {
       listItem = document.createElement("li")
 
       itemLink = document.createElement("a")
-      itemLink.href = `plant.html?plant=${item.toLowerCase()}`
+      itemLink.href = `plant.html?plant=${item.toLowerCase()}&month=${selectedMonth}&region=${selectedRegion}`
       itemLink.innerText = item
       
       listItem.appendChild(itemLink)
@@ -64,6 +64,12 @@ async function getVeggieList(region, month) {
   
 }
 
+
+// async function searchFunction(event) {
+//   event.preventDefault();
+
+// }
+
 //Resets the month each time the region is changed.
 let resetMonth = () => {
   document.querySelector("#month").value = "nil"
@@ -75,8 +81,8 @@ let resetMonth = () => {
 //Searches for matches of the listed plant using the growstuff search bar remotely.
 //If nothing turns up, it tries again using only the first word (if there is more than one word,
 // otherwise just searches the same term again.)
-async function searcher(term) {
-  let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + term)
+async function listSearcher(params) {
+  let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + term["plant"])
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
@@ -104,7 +110,7 @@ async function searcher(term) {
 }
 
 //Retrieves the params and returns the data or a null value
-var getParamsAndLoad = function (url) {
+var getParams = function (url) {
 	params = {};
 	var parser = document.createElement('a');
 	parser.href = url;
@@ -115,7 +121,7 @@ var getParamsAndLoad = function (url) {
 		params[pair[0]] = decodeURIComponent(pair[1]);
   }
 
-  return searcher(params["plant"])
+  return params
 };
 
 
