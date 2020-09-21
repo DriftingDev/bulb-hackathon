@@ -1,5 +1,6 @@
 //GLOBAL VARS
 let list = document.querySelector("#plantResults");
+let searchList = document.querySelector("#searchResults")
 const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
 let domParser = new DOMParser()
 let params = {}
@@ -65,10 +66,39 @@ async function getVeggieList(region, month) {
 }
 
 
-// async function searchFunction(event) {
-//   event.preventDefault();
+async function searchFunction(event) {
+  event.preventDefault();
+  let searchTerm = document.querySelector("#search").value
+  let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + searchTerm)
+    .then(resp => resp.text())
+    .then(result => domParser.parseFromString(result, "text/html"));
+  
+  let results = searchDOM.querySelectorAll(".card")
 
-// }
+  searchListBuilder(results);
+}
+
+function searchListBuilder(nodeList) {
+  searchList.innerHTML = ""
+  if(nodeList.length === 0) {
+    searchList.innerHTML = `
+    <h2>No results Found!</h2>
+    `
+  } else {
+    nodeList.forEach((node) => {
+      console.log(node)
+      title = node.querySelector("h3").querySelector("a").innerText
+      listItem = document.createElement("li")
+
+      itemLink = document.createElement("a")
+      itemLink.href = `plant.html?plant=${title}&month=unspecified&region=unspecified`
+      itemLink.innerText = title
+      
+      listItem.appendChild(itemLink)
+      searchList.appendChild(listItem);
+    })
+  }
+} 
 
 //Resets the month each time the region is changed.
 let resetMonth = () => {
@@ -82,7 +112,7 @@ let resetMonth = () => {
 //If nothing turns up, it tries again using only the first word (if there is more than one word,
 // otherwise just searches the same term again.)
 async function listSearcher(params) {
-  let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + term["plant"])
+  let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + params["plant"])
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
@@ -103,7 +133,7 @@ async function listSearcher(params) {
     } else {
       console.log("couldn't find the thing first try, trying again")
       retry++
-      searcher(term.split(" ")[0])
+      listSearcher(term.split(" ")[0])
     }
     
   }
