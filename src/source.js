@@ -145,8 +145,8 @@ async function listSearcher(params) {
     .then(result => domParser.parseFromString(result, "text/html"));
 
     try {
-    let link = searchDOM.querySelectorAll(".card")[0].querySelector("a").href.slice(21)
-    let data = await fetch(proxyURL + "https://www.growstuff.org" + link + ".json")
+    let link = urlMatcher(searchDOM.querySelectorAll(".card")[0].querySelector("a").href, "crops")
+    let data = await fetch(proxyURL + "https://www.growstuff.org/" + link + ".json")
     .then(resp => resp.json())
 
     console.log("we found a thing")
