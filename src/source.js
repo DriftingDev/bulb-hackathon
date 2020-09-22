@@ -182,6 +182,10 @@ var getParams = function (windowUrl) {
   return params
 };
 
+
+let spacingCalc;
+let dateCalc;
+
 async function pageContent() {
   const params = getParams(window.location.href)
   
@@ -202,11 +206,7 @@ async function pageContent() {
   const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
   let url = "https://www.growstuff.org/crops"
 
-  // let spacingCalc;
-  // let dateCalc;
   const data = await listSearcher(params)
-
-  
   
   if (data) {
     slug = data.slug
@@ -216,18 +216,18 @@ async function pageContent() {
       dateCalc = median_days_to_first_harvest;
       plantName.textContent = name;
       scientificName.textContent = `Scientific name: ${scientific_names[0].name}`;
-      plantDescription.textContent = `Description: ${description}`;
+      plantDescription.textContent = `${description}`;
       image.src = main_image_path;
-      spacingDisp.textContent = `Spacing: ${row_spacing}cm`;
-      plantHeight.textContent = `Height: ${height}cm`;
-      sun.textContent = `Sun requirements: ${sun_requirements}`;
-      sowingMethod.textContent = `Sowing method: ${sowing_method}`;
-      harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
+      spacingDisp.textContent = `${row_spacing}cm`;
+      plantHeight.textContent = `${height}cm`;
+      sun.textContent = `${sun_requirements}`;
+      sowingMethod.textContent = `${sowing_method}`;
+      harvest.textContent = `${median_days_to_first_harvest ? median_days_to_first_harvest : 'Unspecified'} days`;
       
     });
 
-    month.textContent = `Month to plant (searched month): ${params.month}`;
-    region.textContent = `Region grown (searched region): ${params.region}`;
+    month.textContent = `${params.month}`;
+    region.textContent = `${params.region}`;
 
   } else {
     errorMsg()
@@ -256,15 +256,19 @@ function hideCalcs() {
 }
 
 
+
   const areaButton = document.querySelector('.area-calculator-button');
   const inputForArea = document.querySelector('#area-calculator');
 
   const areaCalculator = (area, space) => {
-
-      return `${area / space} plant/s will fit in this area.`
+    if (!area || isNaN(Number(area))) {
+      return 'Please input an number'
+    }
+    return space > 0 ? `${area / space} plant/s will fit in this area.` : `No spacing information available to calculate.`;
   };
 
   areaButton.addEventListener('click', () => document.querySelector('.displayArea').innerHTML = areaCalculator(inputForArea.value, spacingCalc));
+
 
 
   const dateButton = document.querySelector('.date-calculator-button');
@@ -272,9 +276,13 @@ function hideCalcs() {
 
 
   const harvestCalc = function(date) {
+      if (dateCalc === null || dateCalc === "") {
+        return "Harvest time information not available"
+      } else {
       const formatDate = new Date(date);
       const dateToHarvest = new Date(formatDate.setDate(formatDate.getDate() + dateCalc))
       return `Harvest from ${dateToHarvest.toDateString()}`;
+      }
   }
 
   dateButton.addEventListener('click', () => document.querySelector('.displayDate').innerHTML = harvestCalc(inputForDate.value));
