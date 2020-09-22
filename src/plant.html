@@ -1,107 +1,55 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset='utf-8'>
-        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-            <title>Plant
-            </title>
-        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
-        <link rel="stylesheet" type="text/css" href="style.css"/> 
-        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-        
-    </head>
-
-    <body>
-        <h1 class="plantName">Plant</h1>
-        <div class="imageWrapper">
-            <img class="image" src="" />
-
+   <head>
+      <meta charset='utf-8'>
+      <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+      <title>Plant
+      </title>
+      <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+      <link rel="stylesheet" type="text/css" href="style.css"/>
+      <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+   </head>
+   <body onload="pageContent()">
+      <template id="errorTemplate">
+         <h2>Uh oh, we don't have that. Try <a href="https://www.google.com">Google</a>?</h2>
+      </template>
+      <h1 class="plantName"></h1>
+      <div class="imageWrapper">
+         <img class="image" src="" />
+      </div>
+      <div class="scientificName"> </div>
+      <div class="plantDescription"> </div>
+      <div class="spacingDisp"> </div>
+      <div class= "plantHeight"></div>
+      <div class= "sun"></div>
+      <div class= "sowingMethod"></div>
+      <div class= "harvest"></div>
+      <div class= "month"></div>
+      <div class= "region"></div>
+      
+    <div id="calculators">
+        <div id="areaCalculator">
+        <label for="area-calculator">Garden bed size: </label>
+        <input type="text" id="area-calculator" name="area-calculator" size="10">cm2
+        <button class="area-calculator-button">calculate area</button>
+        <div class="displayArea" />
         </div>
-        <script src='plant.js'></script>
-        <div class="scientificName"> </div>
-        <div class="plantDescription"> </div>
-        <div class="spacingDisp"> </div>
-        <div class= "plantHeight"></div>
-        <div class= "sun"></div>
-        <div class= "sowingMethod"></div>
-        <div class= "harvest"></div>
-        
-        Month/region:
-        Calculator:
-        <div class="areaCalculator">
-            <label for="area-calculator">Garden bed size: </label>
-            <input type="text" id="area-calculator" name="area-calculator" size="10">cm2
-            <button class="area-calculator-button">calculate area</button>
-            <div class="displayArea" />
+
+        <div id ="dateCalculator">
+            <label for="date-calculator">Planting Date:</label>
+            <input type="date" id="date-calculator" name="date-calculator" size="10">
+            <button class="date-calculator-button">calculate harvest date</button>
+            <div class="displayDate"></div>
         </div>
+    </div>
+      <script></script>
+      <script src="source.js"></script>
+   </body>
+</html>
+<!-- // start of dynamic page, if data exists then do this:
+   // if doesn't exist then display"not found" or whatever" 
+   region and month, name (from ABC site) will come through in params-->
 
-        <label for="dateCalculator">Planting Date:</label>
-        <input type="date" id="date-calculator" name="date-calculator" size="10">
-        <button class="date-calculator-button">calculate harvest date</button>
-        <div class="displayDate"></div>
-
-        <script>
-            let plantName = document.querySelector(".plantName");
-            let plantDescription = document.querySelector(".plantDescription");
-            let image = document.querySelector(".image")
-            let spacingDisp = document.querySelector(".spacingDisp")
-            let plantHeight = document.querySelector(".plantHeight")
-            let sun = document.querySelector(".sun")
-            let scientificName = document.querySelector(".scientificName");
-            let sowingMethod = document.querySelector(".sowingMethod");
-            let harvest = document.querySelector(".harvest");
-
-
-            const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
-            let url = "https://www.growstuff.org/crops"
-
-            let spacingCalc;
-            let dateCalc;
- 
-            $.getJSON(`${proxyURL+url}/113.json`, ({ name, openfarm_data: { attributes }, median_days_to_first_harvest, scientific_names }) => {
-                const { description, height, sun_requirements, sowing_method, main_image_path, row_spacing } = attributes;
-                spacingCalc = row_spacing;
-                dateCalc = median_days_to_first_harvest;
-                plantName.textContent = name;
-                scientificName.textContent = `Scientific name: ${scientific_names[0].name}`;
-                plantDescription.textContent = `Description: ${description}`;
-                image.src = main_image_path;
-                spacingDisp.textContent = `Spacing: ${row_spacing}cm`;
-                plantHeight.textContent = `Height: ${height}cm`;
-                sun.textContent = `Sun requirements: ${sun_requirements}`;
-                sowingMethod.textContent = `Sowing method: ${sowing_method}`;
-                harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
-
-            });
-
-            const areaButton = document.querySelector('.area-calculator-button');
-            const inputForArea = document.querySelector('#area-calculator');
-
-            const areaCalculator = (area, space) => {
-
-                return `${area / space} plant/s will fit in this area.`
-            };
-
-            areaButton.addEventListener('click', () => document.querySelector('.displayArea').innerHTML = areaCalculator(inputForArea.value, spacingCalc));
-
-
-            const dateButton = document.querySelector('.date-calculator-button');
-            const inputForDate = document.querySelector('#date-calculator');
-
-
-            const harvestCalc = function(date) {
-                const formatDate = new Date(date);
-                const dateToHarvest = new Date(formatDate.setDate(formatDate.getDate() + dateCalc))
-                return `Harvest from ${dateToHarvest.toDateString()}`;
-            }
-
-            dateButton.addEventListener('click', () => document.querySelector('.displayDate').innerHTML = harvestCalc(inputForDate.value));
-
-        
-        </script>
-    </body>
-    </html>
-    <!-- // start of dynamic page, if data exists then do this:
-    // if doesn't exist then display"not found" or whatever" 
-region and month, name (from ABC site) will come through in params-->
