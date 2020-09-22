@@ -237,9 +237,14 @@ async function pageContent() {
 
 
 function errorMsg() {
-  var temp = document.getElementById("errorTemplate");
-  var clon = temp.content.cloneNode(true);
-  document.body.appendChild(clon);
+  document.querySelector("#contentBoi").className =""
+  document.querySelector("#contentBoi").innerHTML = ""
+  document.querySelector("#errorBoi").className = "jumbotron d-flex flex-column align-items-center"
+  document.querySelector("#errorBoi").innerHTML = `
+  <div class="col-sm-7">
+    <h2 class="display-3">Uh oh, we don't have that. Try <a href="https://www.google.com">Google</a>?</h2>
+  </div>
+  `
 }
 
 function hideCalcs() {
