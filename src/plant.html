@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -8,45 +6,178 @@
       <title>Plant
       </title>
       <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       <link rel="stylesheet" type="text/css" href="style.css"/>
-      <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
       <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
    </head>
    <body onload="pageContent()">
-      <template id="errorTemplate">
-         <h2>Uh oh, we don't have that. Try <a href="https://www.google.com">Google</a>?</h2>
-      </template>
-      <h1 class="plantName"></h1>
-      <div class="imageWrapper">
-         <img class="image" src="" />
-      </div>
-      <div class="scientificName"> </div>
-      <div class="plantDescription"> </div>
-      <div class="spacingDisp"> </div>
-      <div class= "plantHeight"></div>
-      <div class= "sun"></div>
-      <div class= "sowingMethod"></div>
-      <div class= "harvest"></div>
-      <div class= "month">MONTH</div>
-      <div class= "region">REGION</div>
-      
-    <div id="calculators">
-        <div id="areaCalculator">
-        <label for="area-calculator">Garden bed size: </label>
-        <input type="text" id="area-calculator" name="area-calculator" size="10">cm2
-        <button class="area-calculator-button">calculate area</button>
-        <div class="displayArea" />
-        </div>
 
-        <div id ="dateCalculator">
-            <label for="date-calculator">Planting Date:</label>
-            <input type="date" id="date-calculator" name="date-calculator" size="10">
-            <button class="date-calculator-button">calculate harvest date</button>
-            <div class="displayDate"></div>
-        </div>
-    </div>
-      <script></script>
+      <nav class="navbar navbar-dark bg-dark justify-content-between">
+         <a class="navbar-brand ml-1" href="https://awesome-ardinghelli-487bcb.netlify.app/">
+           <img src="img/search-3-512.png" width="30" height="30" alt="search icon">
+         </a>
+         <a class="navbar-brand" href="https://awesome-ardinghelli-487bcb.netlify.app">
+           <img src="img/logo.png" width="90" height="90" alt="Bulb Logo">
+         </a>
+         <a class="navbar-brand" data-toggle="collapse" href="#helpJumbo" role="button">
+           <img src="img/question-mark-512.png" width="20" height="30" alt="question icon">
+         </a>
+      </nav>
+
+      <div class="collapse" id="helpJumbo">
+         <div class="jumbotron d-flex flex-column align-items-center">
+           <div class="col-sm-7">
+             <div class="d-flex justify-content-center mb-4">
+               <img src="img/logo.png" class="img-fluid" alt="bulb logo">
+             </div>
+             <h1 class="display-4">Welcome to Bulb!</h1>
+             <p class="lead">A Hackathon project made for CoderAcademy by <a href="https://twitter.com/Adrienne_es">@Adrienne_es</a> & <a href="https://twitter.com/DriftingDev">@DriftingDev</a></p>
+             <hr class="my-4">
+             <h3 class="display-5">The Challenge</h3>
+             <p>Bulb was built as part of a 3 day hackathon done as part of the curriculum of CoderAcademy</p>
+             <p>The aim of the hackathon was to create a functional, hosted web application using only HTML and vanilla JS. Styling add-ons were also permitted.</p>
+             <h3 class="display-5">The App</h3>
+             <p>Bulb is a webscraper/API synthesizer, designed to consolidate planting and harvesting information for household Australian gardeners.</>
+             <p>It achieves this through essentially running a web-scraper on the <a href="https://www.abc.net.au/gardening/vegie-guide-zones/9796680">ABC website</a> to compile a list of plants suitable for planting depending on a selected region and month.</p>
+             <p>From here, Bulb then searches for the plant on the <a href="https://www.growstuff.org/">Growstuff API</a> and tries to pull up specific information about that plant.</p>
+             <p>In it's current version, Bulb can generally find and accurate match 90% of the time, but will sometimes pull up the wrong plant if the search term starts with a general descriptor (such as "sweet") or the scraped plant name contains brackets or is uncommon.</p>
+             <h3 class="display-5">The Repo</h3>
+             <p>You can find the repo <a href="https://github.com/DriftingDev/bulb-hackathon">here</a> and get in contact with either of us via GitHub or Twitter!</p>
+             <hr class="my-4">
+             <p class="lead">Thanks for visiting!</p>
+           </div>
+         </div>
+      </div>
+
+      <div class="" id="errorBoi">
+      </div>
+      
+      <div class="jumbotron d-flex flex-column align-items-center" id="contentBoi">
+         <div class="col-sm-7">
+            <h1 class="plantName display-4"></h1>
+            <p class="scientificName lead"></p>
+            <a href="https://github.com/Growstuff/growstuff/wiki/API-Version-0" class="lead">Info from Growstuff API</a>
+            <hr class="my-4">
+            <div class="d-flex justify-content-center">
+               <img class="image img-fluid my-auto" src="" />
+            </div>
+            
+
+            <hr class="my-4">
+
+            <div class="card">
+               <div class="card-header">
+                  Description
+               </div>
+               <div class="card-body">
+                  <p class="plantDescription card-text"></p>
+               </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="card-columns">
+               <div class="card" id="spacingDisp">
+                  <div class="card-header">
+                     Spacing
+                  </div>
+                  <div class="card-body">
+                     <p class="spacingDisp card-text"></p>
+                  </div>
+               </div>
+
+               <div class="card" id="plantHeight">
+                  <div class="card-header">
+                     Height
+                  </div>
+                  <div class="card-body">
+                     <p class= "plantHeight card-text"></p>
+                  </div>
+               </div>
+
+               <div class="card" id="sun">
+                  <div class="card-header">
+                     Sun Requirements
+                  </div>
+                  <div class="card-body">
+                     <p class= "sun card-text"></p>
+                  </div>
+               </div>
+
+               <div class="card" id="sowingMethod">
+                  <div class="card-header">
+                     Sowing Method
+                  </div>
+                  <div class="card-body">
+                     <p class= "sowingMethod card-text"></p>
+                  </div>
+               </div>
+
+               <div class="card" id="harvest">
+                  <div class="card-header">
+                     Harvest from
+                  </div>
+                  <div class="card-body">
+                     <p class= "harvest card-text"></p>
+                  </div>
+               </div>
+
+               <div class="card" id="month">
+                  <div class="card-header">
+                     Month to plant
+                  </div>
+                  <div class="card-body">
+                     <p class= "month card-text"></p>
+                  </div>
+               </div>
+
+               <div class="card" id="region">
+                  <div class="card-header">
+                     Region to plant
+                  </div>
+                  <div class="card-body">
+                     <div class= "region card-text"></div>
+                  </div>
+               </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div id="calculators" class="card">
+               <form>
+                  <div id="areaCalculator" class="form-group p-5">
+                     <label for="area-calculator">Garden bed size: </label>
+                     <div class="input-group mb-2">
+                        <input class="form-control" type="text" id="area-calculator" name="area-calculator" size="10">
+                        <div class="input-group-append">
+                           <div class="input-group-text">cm2</div>
+                        </div>
+                     </div>
+                     <div class="area-calculator-button btn btn-primary mb-2">calculate area</div>
+                     <div class="displayArea font-weight-bold"></div>
+                  </div>
+               </form>
+
+               <form>
+                  <div id ="dateCalculator" class="form-group p-5">
+                     <label for="date-calculator">Planting Date:</label>
+                     
+                     <input class="form-control mb-2" type="date" id="date-calculator" name="date-calculator" size="10">
+                     <div class="date-calculator-button btn btn-primary mb-2">calculate harvest date</div>
+                                          
+                     <div class="displayDate font-weight-bold"></div>
+                  </div>
+               </form>
+               
+            </div>
+
+         </div>
+      </div>
+
       <script src="source.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      
    </body>
 </html>
 <!-- // start of dynamic page, if data exists then do this:
