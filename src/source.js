@@ -10,7 +10,7 @@ let retry = 0
 
 function loader(target) {
   target.innerHTML = `
-  <h2>Loading</h2>
+  <h2 class="list-group-item">Loading</h2>
   `
 }
 
@@ -26,14 +26,15 @@ async function domQuery() {
     
     list.innerHTML = ""
     veggieList.forEach((item) => {
-      listItem = document.createElement("li")
-
       itemLink = document.createElement("a")
       itemLink.href = `plant.html?plant=${item.toLowerCase()}&month=${selectedMonth}&region=${selectedRegion}`
+      itemLink.classList.add("list-group-item") 
+      itemLink.classList.add("list-group-item-action")
+      itemLink.classList.add("font-weight-bold")
       itemLink.innerText = item
       
-      listItem.appendChild(itemLink)
-      list.appendChild(listItem);
+      //listItem.appendChild(itemLink)
+      list.appendChild(itemLink);
     })
   } catch {
     list.innerHTML = ""
@@ -107,14 +108,18 @@ function searchListBuilder(nodeList) {
   } else {
     nodeList.forEach((node) => {
       title = node.querySelector("h3").querySelector("a").innerText
-      listItem = document.createElement("li")
+      //listItem = document.createElement("li")
 
       itemLink = document.createElement("a")
       itemLink.href = `plant.html?plant=${title}&month=unspecified&region=unspecified`
+      itemLink.classList.add("list-group-item") 
+      itemLink.classList.add("list-group-item-action")
+      itemLink.classList.add("font-weight-bold")
+      itemLink.classList.add("col-sm-7")
       itemLink.innerText = title
+      console.log(itemLink)
       
-      listItem.appendChild(itemLink)
-      searchList.appendChild(listItem);
+      searchList.appendChild(itemLink);
     })
   }
 } 
