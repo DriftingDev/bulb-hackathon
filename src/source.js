@@ -120,9 +120,14 @@ function searchListBuilder(nodeList) {
 } 
 
 //Resets the month each time the region is changed.
-let resetMonth = () => {
-  document.querySelector("#month").value = "nil"
-  list.innerHTML = ""
+function resetMonth() {
+  document.querySelector("#month").value = "nil";
+  document.querySelector("#month").focus()
+  list.innerHTML = "";
+}
+
+function removeCollapse() {
+  document.querySelector("#region").removeAttribute('data-toggle')
 }
 
 //PLANT PAGE JS

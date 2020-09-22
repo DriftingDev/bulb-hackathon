@@ -5,4 +5,8 @@ body {
 h1 {
   color: black;
 }
-/*# sourceMappingURL=styles.css.map */
+
+.imageWrapper {
+  max-width: 500px;
+}
+/*# sourceMappingURL=style.css.map */

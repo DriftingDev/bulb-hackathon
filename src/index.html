@@ -9,67 +9,89 @@
 </head>
 <body>
   <nav class="navbar navbar-dark bg-dark justify-content-between">
-    <a class="navbar-brand">
+    <a class="navbar-brand" data-toggle="collapse" href="#searchJumbo" role="button">
       <img src="img/search-3-512.png" width="30" height="30" alt="search icon">
     </a>
     <h1 style="font-size: 2rem;" class="navbar-brand">Bulb</h1>
-    <a class="navbar-brand">
+    <a class="navbar-brand" data-toggle="collapse" href="#helpJumbo" role="button">
       <img src="img/question-mark-512.png" width="30" height="30" alt="question icon">
     </a>
   </nav>
+
+  <div class="collapse" id="helpJumbo">
+    <div class="jumbotron">
+      
+    </div>
+  </div>
   
-
-  <form onsubmit="searchFunction(event)">
-    <label for="search">Search:</label>
-    <input type="text" name="search" id="search">
-    <input type="submit" name="submit" id="submit">
-  </form>
-
-  <ul id="searchResults">
-
-  </ul>
-
-  <form action="">
-    <label for="region">Choose your climate region:</label>
-
-    <button type="button">?</button> <!-- User can find out what region they are in using a popup here -->
-
-    <select name="region" id="region" onchange="resetMonth()">
-      <option value="nil" disabled>Select one--</option> <!-- When a user selects, remove this option --> 
-      <option value="arid">Arid</option>
-      <option value="tropical">Tropical</option>
-      <option value="subtropical">Subtropical</option>
-      <option value="temperate">Temperate</option>
-      <option value="cool">Cool</option>
-    </select>
-  </form>
-
-  <form action="">
-    <label for="month">Month</label>
-
-    <button type="button">?</button> <!-- User can choose which month of planting they wish to see here --> 
+  <div class="collapse" id="searchJumbo">
+    <div class="jumbotron d-flex flex-column">
+      <form onsubmit="searchFunction(event)" class="form-inline justify-content-center">
+        <div class="form-group">
+          <label for="search" class="m-3 font-weight-bold">Search:</label>
+          <input type="text" name="search" id="search" class="form-control m-3">
+          <input type="submit" name="submit" id="submit" class="form-control m-3">
+        </div>
+      </form>
     
-    <select name="month" id="month" onchange="domQuery()">
-      <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
-      <option value="january">January</option>
-      <option value="february">February</option>
-      <option value="march">March</option>
-      <option value="april">April</option>
-      <option value="may">May</option>
-      <option value="june">June</option>
-      <option value="july">July</option>
-      <option value="august">August</option>
-      <option value="september">September</option>
-      <option value="october">October</option>
-      <option value="november">November</option>
-      <option value="december">December</option>
-    </select>
-  </form>
+      <ul id="searchResults">
+    
+      </ul>
+    </div>
+  </div>
+  
+  <div class="jumbotron d-flex flex-column justify-content-center">
 
-  <ul id="plantResults">
+    <form>
+      <div class="form-group d-flex justify-content-between">
+        <label class="font-weight-bold" for="region">Choose your climate region:</label>
+        <button type="button" class="btn btn-info">?</button> <!-- User can find out what region they are in using a popup here -->
+      </div>
+      <div class="form-group">
+        <select multiple class="form-control" data-toggle="collapse" data-target="#monthDrop" name="region" id="region" onchange="resetMonth()">
+          <option value="arid">Arid</option>
+          <option value="tropical">Tropical</option>
+          <option value="subtropical">Subtropical</option>
+          <option value="temperate">Temperate</option>
+          <option value="cool">Cool</option>
+        </select>
+      </div>
+    </form>
+    
+    <div class="collapse" id="monthDrop">
+      <form>
+        <div class="form-group d-flex justify-content-between">
+          <label class="font-weight-bold" for="month">Month:</label>
+        <button class="btn btn-info" type="button">?</button> <!-- User can choose which month of planting they wish to see here --> 
+        </div>
+        <div class="form-group">
+          <select class="form-control" name="month" id="month" onchange="domQuery()" onfocus="removeCollapse()">
+            <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  
+    <ul id="plantResults">
+  
+    </ul>
 
-  </ul>
-
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="source.js"></script>
 </body>
 </html>
