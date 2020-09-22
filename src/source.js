@@ -35,28 +35,36 @@ async function domQuery(selectedMonth) {
   }
 }
 
+function urlMatcher(url, term) {
+  if(url.match(`/${term}(.*)/`)) {
+    regex = "(.*)"
+    const match = url.match(term + regex);
+    return match[0];
+  }
+  return null;
+}
+
 //queries the ABC site to build a list of plants according to the passed month and region.
 async function getVeggieList(region, month) {
   const abcUrl = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
-  console.log(proxyURL + abcUrl);
   let queryDOM = await fetch(proxyURL + abcUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
   
   const firstLinkList = Array.from(queryDOM.querySelectorAll("a"));
   let firstFilteredList = firstLinkList.filter(a => new RegExp("\\b" + region + "\\b").test(a.href));
-  const regionLink = firstFilteredList[0].outerHTML.slice(9,45);
+  const regionLink = urlMatcher(firstFilteredList[0].href, "gardening")
 
-  const regionUrl = "https://www.abc.net.au" + regionLink;
+  const regionUrl = "https://www.abc.net.au/" + regionLink;
   queryDOM = await fetch(proxyURL + regionUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
   const secondLinkList = Array.from(queryDOM.querySelectorAll("a"));
   let secondFilteredList = secondLinkList.filter(a => new RegExp("\\b" + month + "\\b").test(a.href));
-  const monthLink = secondFilteredList[0].outerHTML.slice(9,49);
+  const monthLink = urlMatcher(secondFilteredList[0].href, "gardening")
   
-  const monthUrl = "https://www.abc.net.au" + monthLink;
+  const monthUrl = "https://www.abc.net.au/" + monthLink;
   queryDOM = await fetch(proxyURL + monthUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
