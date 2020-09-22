@@ -8,10 +8,19 @@ let retry = 0
 
 // INDEX PAGE JS
 
+function loader(target) {
+  target.innerHTML = `
+  <h2>Loading</h2>
+  `
+}
+
 // dynamically renders a list of plants using the passed month and a queried region when
 // a month is selected from the drop down in index.html
-async function domQuery(selectedMonth) {
+async function domQuery() {
+  loader(list);
+
   let selectedRegion = document.querySelector("#region").value
+  let selectedMonth = document.querySelector("#month").value
   try {
     veggieList = await getVeggieList(selectedRegion, selectedMonth);
     
@@ -77,6 +86,8 @@ async function getVeggieList(region, month) {
 
 async function searchFunction(event) {
   event.preventDefault();
+  loader(searchList);
+
   let searchTerm = document.querySelector("#search").value
   let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + searchTerm)
     .then(resp => resp.text())
@@ -95,7 +106,6 @@ function searchListBuilder(nodeList) {
     `
   } else {
     nodeList.forEach((node) => {
-      console.log(node)
       title = node.querySelector("h3").querySelector("a").innerText
       listItem = document.createElement("li")
 
