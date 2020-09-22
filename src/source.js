@@ -33,7 +33,6 @@ async function domQuery() {
       itemLink.classList.add("font-weight-bold")
       itemLink.innerText = item
       
-      //listItem.appendChild(itemLink)
       list.appendChild(itemLink);
     })
   } catch {
@@ -108,7 +107,6 @@ function searchListBuilder(nodeList) {
   } else {
     nodeList.forEach((node) => {
       title = node.querySelector("h3").querySelector("a").innerText
-      //listItem = document.createElement("li")
 
       itemLink = document.createElement("a")
       itemLink.href = `plant.html?plant=${title}&month=unspecified&region=unspecified`
