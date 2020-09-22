@@ -215,19 +215,19 @@ async function pageContent() {
       spacingCalc = row_spacing;
       dateCalc = median_days_to_first_harvest;
       plantName.textContent = name;
-      scientificName.textContent = `Scientific name: ${scientific_names[0].name}`;
-      plantDescription.textContent = `Description: ${description}`;
+      scientificName.textContent = scientific_names[0].name;
+      plantDescription.textContent = description;
       image.src = main_image_path;
-      spacingDisp.textContent = `Spacing: ${row_spacing}cm`;
-      plantHeight.textContent = `Height: ${height}cm`;
-      sun.textContent = `Sun requirements: ${sun_requirements}`;
-      sowingMethod.textContent = `Sowing method: ${sowing_method}`;
-      harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
+      spacingDisp.textContent = `${row_spacing}cm`;
+      plantHeight.textContent = `${height}cm`;
+      sun.textContent = sun_requirements;
+      sowingMethod.textContent = sowing_method;
+      harvest.textContent = `${median_days_to_first_harvest} days`;
       
     });
 
-    month.textContent = `Month to plant (searched month): ${params.month}`;
-    region.textContent = `Region grown (searched region): ${params.region}`;
+    month.textContent = params.month;
+    region.textContent = params.region;
 
   } else {
     errorMsg()
