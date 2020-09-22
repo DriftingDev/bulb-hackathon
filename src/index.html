@@ -3,63 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <title>Bulb</title>
 </head>
 <body>
-  <h1>Bulb</h1>
+  <nav class="navbar navbar-dark bg-dark justify-content-between">
+    <a class="navbar-brand ml-1" data-toggle="collapse" href="#searchJumbo" role="button">
+      <img src="img/search-3-512.png" width="30" height="30" alt="search icon">
+    </a>
+    <a class="navbar-brand" href="https://awesome-ardinghelli-487bcb.netlify.app">
+      <img src="img/logo.png" width="90" height="90" alt="Bulb Logo">
+    </a>
+    <a class="navbar-brand" data-toggle="collapse" href="#helpJumbo" role="button">
+      <img src="img/question-mark-512.png" width="20" height="30" alt="question icon">
+    </a>
+  </nav>
 
-  <form onsubmit="searchFunction(event)">
-    <label for="search">Search:</label>
-    <input type="text" name="search" id="search">
-    <input type="submit" name="submit" id="submit">
-  </form>
-
-  <ul id="searchResults">
-
-  </ul>
-
-  <form action="">
-    <label for="region">Choose your climate region:</label>
-
-    <button type="button">?</button> <!-- User can find out what region they are in using a popup here -->
-
-    <select name="region" id="region" onchange="resetMonth()">
-      <option value="nil" disabled>Select one--</option> <!-- When a user selects, remove this option --> 
-      <option value="arid">Arid</option>
-      <option value="tropical">Tropical</option>
-      <option value="subtropical">Subtropical</option>
-      <option value="temperate">Temperate</option>
-      <option value="cool">Cool</option>
-    </select>
-  </form>
-
-  <form action="">
-    <label for="month">Month</label>
-
-    <button type="button">?</button> <!-- User can choose which month of planting they wish to see here --> 
+  <div class="collapse" id="helpJumbo">
+    <div class="jumbotron d-flex flex-column align-items-center">
+      <div class="col-sm-7">
+        <div class="d-flex justify-content-center mb-4">
+          <img src="img/logo.png" class="img-fluid" alt="bulb logo">
+        </div>
+        <h1 class="display-4">Welcome to Bulb!</h1>
+        <p class="lead">A Hackathon project made for CoderAcademy by <a href="https://twitter.com/Adrienne_es">@Adrienne_es</a> & <a href="https://twitter.com/DriftingDev">@DriftingDev</a></p>
+        <hr class="my-4">
+        <h3 class="display-5">The Challenge</h3>
+        <p>Bulb was built as part of a 3 day hackathon done as part of the curriculum of CoderAcademy</p>
+        <p>The aim of the hackathon was to create a functional, hosted web application using only HTML and vanilla JS. Styling add-ons were also permitted.</p>
+        <h3 class="display-5">The App</h3>
+        <p>Bulb is a webscraper/API synthesizer, designed to consolidate planting and harvesting information for household Australian gardeners.</>
+        <p>It achieves this through essentially running a web-scraper on the <a href="https://www.abc.net.au/gardening/vegie-guide-zones/9796680">ABC website</a> to compile a list of plants suitable for planting depending on a selected region and month.</p>
+        <p>From here, Bulb then searches for the plant on the <a href="https://www.growstuff.org/">Growstuff API</a> and tries to pull up specific information about that plant.</p>
+        <p>In it's current version, Bulb can generally find and accurate match 90% of the time, but will sometimes pull up the wrong plant if the search term starts with a general descriptor (such as "sweet") or the scraped plant name contains brackets or is uncommon.</p>
+        <h3 class="display-5">The Repo</h3>
+        <p>You can find the repo <a href="https://github.com/DriftingDev/bulb-hackathon">here</a> and get in contact with either of us via GitHub or Twitter!</p>
+        <hr class="my-4">
+        <p class="lead">Thanks for visiting!</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="collapse" id="searchJumbo">
+    <div class="jumbotron d-flex flex-column">
+      <form onsubmit="searchFunction(event)" class="form-inline justify-content-center">
+        <div class="form-group">
+          <label for="search" class="mr-3 ml-3 font-weight-bold">Search:</label>
+          <input type="text" name="search" id="search" class="form-control m-3">
+          <input type="submit" name="submit" id="submit" class="form-control m-3">
+        </div>
+      </form>
     
-    <select name="month" id="month" onchange="domQuery(this.value)">
-      <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
-      <option value="january">January</option>
-      <option value="february">February</option>
-      <option value="march">March</option>
-      <option value="april">April</option>
-      <option value="may">May</option>
-      <option value="june">June</option>
-      <option value="july">July</option>
-      <option value="august">August</option>
-      <option value="september">September</option>
-      <option value="october">October</option>
-      <option value="november">November</option>
-      <option value="december">December</option>
-    </select>
-  </form>
+      <div class="list-group align-items-center" id="searchResults">
+    
+      </div>
+    </div>
+  </div>
+  
+  <div class="jumbotron d-flex flex-column justify-content-center align-items-center">
+    <div class="col-sm-7">
+      <form class=>
+        <div class="form-group d-flex justify-content-between">
+          <label class="font-weight-bold" for="region">Choose your climate region:</label>
+          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#regionModal">?</button>
+        </div>
+  
+        <div class="form-group">
+          <select multiple class="form-control" data-toggle="collapse" data-target="#monthDrop" name="region" id="region" onchange="resetMonth()">
+            <option value="arid">Arid</option>
+            <option value="tropical">Tropical</option>
+            <option value="subtropical">Subtropical</option>
+            <option value="temperate">Temperate</option>
+            <option value="cool">Cool</option>
+          </select>
+        </div>
+      </form>
+    </div>
+    
+    <div class="collapse col-sm-7" id="monthDrop">
+      <form>
+        <div class="form-group d-flex justify-content-between">
+          <label class="font-weight-bold" for="month">Month:</label>
+        <button class="btn btn-info" type="button" data-toggle="modal" data-target="#monthModal">?</button> <!-- User can choose which month of planting they wish to see here --> 
+        </div>
 
-  <ul id="plantResults">
+        <div class="form-group">
+          <select class="form-control" name="month" id="month" onchange="domQuery()" onfocus="removeCollapse()">
+            <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  
+    <div class="list-group align-items-center col-sm-7" id="plantResults">
+  
+    </div>
+  </div>
 
-  </ul>
+  <div class="modal fade" id="regionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Choose your region</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Select your region from the box using these maps as a guide:</p>
+          <h3>Arid Zone</h3>
+          <img src="img/arid.jpg" alt="arid zone map" class="img-fluid">
+          <hr class="my-3">
+          <h3>Tropical Zone</h3>
+          <img src="img/tropical.jpg" alt="tropical zone map" class="img-fluid">
+          <hr class="my-3">
+          <h3>Subtropical Zone</h3>
+          <img src="img/subtropical.jpg" alt="subtropical zone map" class="img-fluid">
+          <hr class="my-3">
+          <h3>Temperate Zone</h3>
+          <img src="img/temperate.jpg" alt="temperate zone map" class="img-fluid">
+          <hr class="my-3">
+          <h3>Cool Zone</h3>
+          <img src="img/cool.jpg" alt="cool zone map" class="img-fluid">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="modal fade" id="monthModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Select your month</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="lead">When you select a month, Bulb will create a list of plants that can be planted in that month in the previously selected zone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="source.js"></script>
 </body>
 </html>
