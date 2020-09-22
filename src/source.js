@@ -42,6 +42,7 @@ async function domQuery() {
     error.innerText = "There was an error! Try again in a minute";
     list.appendChild(error);
   }
+  const urlParams = itemLink.href
 }
 
 function urlMatcher(url, term) {
@@ -143,14 +144,14 @@ async function listSearcher(params) {
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
-  try {
+    try {
     let link = searchDOM.querySelectorAll(".card")[0].querySelector("a").href.slice(21)
     let data = await fetch(proxyURL + "https://www.growstuff.org" + link + ".json")
-      .then(resp => resp.json())
+    .then(resp => resp.json())
 
     console.log("we found a thing")
     return data
-
+    
   } catch {
     
     if(retry > 0) {
@@ -160,7 +161,7 @@ async function listSearcher(params) {
     } else {
       console.log("couldn't find the thing first try, trying again")
       retry++
-      listSearcher(term.split(" ")[0])
+      listSearcher(params["plant"].split(" ")[0])
     }
     
   }
@@ -168,18 +169,109 @@ async function listSearcher(params) {
 
 //Retrieves the params and returns the data or a null value
 var getParams = function (windowUrl) {
-	params = {};
-	var parser = document.createElement('a');
-	parser.href = windowUrl;
-	var query = parser.search.substring(1);
-	var vars = query.split('&');
-	for (var i = 0; i < vars.length; i++) {
-		var pair = vars[i].split('=');
-		params[pair[0]] = decodeURIComponent(pair[1]);
+  params = {};
+  var parser = document.createElement('a');
+  parser.href = windowUrl;
+  var query = parser.search.substring(1);
+  var vars = query.split('&');
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split('=');
+    params[pair[0]] = decodeURIComponent(pair[1]);
   }
 
   return params
 };
+
+async function pageContent() {
+  const params = getParams(window.location.href)
+  
+
+  let plantName = document.querySelector(".plantName");
+  let plantDescription = document.querySelector(".plantDescription");
+  let image = document.querySelector(".image")
+  let spacingDisp = document.querySelector(".spacingDisp")
+  let plantHeight = document.querySelector(".plantHeight")
+  let sun = document.querySelector(".sun")
+  let scientificName = document.querySelector(".scientificName");
+  let sowingMethod = document.querySelector(".sowingMethod");
+  let harvest = document.querySelector(".harvest");
+  let month = document.querySelector(".month")
+  let region = document.querySelector(".region")
+
+
+  const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
+  let url = "https://www.growstuff.org/crops"
+
+  // let spacingCalc;
+  // let dateCalc;
+  const data = await listSearcher(params)
+
+  month.textContent = `Month to plant (searched month): ${params.month}`;
+  region.textContent = `Region grown (searched region): ${params.region}`;
+ 
+  
+  if (data) {
+    slug = data.slug
+    $.getJSON(`${proxyURL+url}/${slug}.json`, ({ name, openfarm_data: { attributes }, median_days_to_first_harvest, scientific_names }) => {
+      const { description, height, sun_requirements, sowing_method, main_image_path, row_spacing } = attributes;
+      spacingCalc = row_spacing;
+      dateCalc = median_days_to_first_harvest;
+      plantName.textContent = name;
+      scientificName.textContent = `Scientific name: ${scientific_names[0].name}`;
+      plantDescription.textContent = `Description: ${description}`;
+      image.src = main_image_path;
+      spacingDisp.textContent = `Spacing: ${row_spacing}cm`;
+      plantHeight.textContent = `Height: ${height}cm`;
+      sun.textContent = `Sun requirements: ${sun_requirements}`;
+      sowingMethod.textContent = `Sowing method: ${sowing_method}`;
+      harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
+      
+    });
+  } else {
+    errorMsg()
+    hideCalcs()
+  }
+}
+
+
+function errorMsg() {
+  var temp = document.getElementById("errorTemplate");
+  var clon = temp.content.cloneNode(true);
+  document.body.appendChild(clon);
+}
+
+function hideCalcs() {
+  var areaCalc = document.getElementById("areaCalculator");
+  var dateCalc = document.getElementById("dateCalculator");
+  var calculators = document.getElementById("calculators");
+
+  calculators.innerHTML= "";
+}
+
+
+  const areaButton = document.querySelector('.area-calculator-button');
+  const inputForArea = document.querySelector('#area-calculator');
+
+  const areaCalculator = (area, space) => {
+
+      return `${area / space} plant/s will fit in this area.`
+  };
+
+  areaButton.addEventListener('click', () => document.querySelector('.displayArea').innerHTML = areaCalculator(inputForArea.value, spacingCalc));
+
+
+  const dateButton = document.querySelector('.date-calculator-button');
+  const inputForDate = document.querySelector('#date-calculator');
+
+
+  const harvestCalc = function(date) {
+      const formatDate = new Date(date);
+      const dateToHarvest = new Date(formatDate.setDate(formatDate.getDate() + dateCalc))
+      return `Harvest from ${dateToHarvest.toDateString()}`;
+  }
+
+  dateButton.addEventListener('click', () => document.querySelector('.displayDate').innerHTML = harvestCalc(inputForDate.value));
+
 
 
 
