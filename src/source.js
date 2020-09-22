@@ -10,7 +10,9 @@ let retry = 0
 
 function loader(target) {
   target.innerHTML = `
-  <h2 class="list-group-item">Loading</h2>
+  <div class="spinner-border mt-5" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
   `
 }
 
@@ -185,7 +187,8 @@ var getParams = function (windowUrl) {
 async function pageContent() {
   const params = getParams(window.location.href)
   
-
+  let loader = document.querySelector(".loadingDiv");
+  let contentDiv = document.querySelector("#contentBoi");
   let plantName = document.querySelector(".plantName");
   let plantDescription = document.querySelector(".plantDescription");
   let image = document.querySelector(".image")
@@ -210,26 +213,34 @@ async function pageContent() {
   
   if (data) {
     slug = data.slug
-    $.getJSON(`${proxyURL+url}/${slug}.json`, ({ name="", openfarm_data: { attributes={} }, median_days_to_first_harvest="", scientific_names=[]}) => {
-      const { description="", height="", sun_requirements="", sowing_method="", main_image_path="", row_spacing="" } = attributes;
+    $.getJSON(`${proxyURL+url}/${slug}.json`, ({ name="N/A", openfarm_data: { attributes={} }, median_days_to_first_harvest="N/A", scientific_names=[]}) => {
+      const { description="N/A", height="N/A", sun_requirements="N/A", sowing_method="N/A", main_image_path="", row_spacing="N/A" } = attributes;
       spacingCalc = row_spacing;
       dateCalc = median_days_to_first_harvest;
       plantName.textContent = name;
       scientificName.textContent = scientific_names[0].name;
       plantDescription.textContent = description;
       image.src = main_image_path;
-      spacingDisp.textContent = `${row_spacing}cm`;
-      plantHeight.textContent = `${height}cm`;
+      spacingDisp.textContent = `${row_spacing} cm`;
+      plantHeight.textContent = `${height} cm`;
       sun.textContent = sun_requirements;
       sowingMethod.textContent = sowing_method;
-      harvest.textContent = `${median_days_to_first_harvest} days`;
+      harvest.textContent = `${median_days_to_first_harvest == null ? "N/A" : median_days_to_first_harvest} days`;
       
+      if (row_spacing == "N/A") {
+        hideCalcs();
+      }
+
     });
 
     month.textContent = params.month;
     region.textContent = params.region;
 
+    loader.classList.add("hideMe");
+    contentDiv.classList.remove("hideMe")
+
   } else {
+    loader.classList.add("hideMe");
     errorMsg()
     hideCalcs()
   }
@@ -239,7 +250,7 @@ async function pageContent() {
 function errorMsg() {
   document.querySelector("#contentBoi").className =""
   document.querySelector("#contentBoi").innerHTML = ""
-  document.querySelector("#errorBoi").className = "jumbotron d-flex flex-column align-items-center"
+  document.querySelector("#errorBoi").className = "jumbotron mt-5 mx-5 d-flex flex-column align-items-center"
   document.querySelector("#errorBoi").innerHTML = `
   <div class="col-sm-7">
     <h2 class="display-3">Uh oh, we don't have that. Try <a href="https://www.google.com">Google</a>?</h2>
