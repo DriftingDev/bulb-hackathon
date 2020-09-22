@@ -168,6 +168,8 @@ async function pageContent() {
   let scientificName = document.querySelector(".scientificName");
   let sowingMethod = document.querySelector(".sowingMethod");
   let harvest = document.querySelector(".harvest");
+  let month = document.querySelector(".month")
+  let region = document.querySelector(".region")
 
 
   const proxyURL = "https://secret-savannah-87524.herokuapp.com/"
@@ -177,6 +179,10 @@ async function pageContent() {
   // let dateCalc;
   const data = await listSearcher(params)
 
+  month.textContent = `Month to plant (searched month): ${params.month}`;
+  region.textContent = `Region grown (searched region): ${params.region}`;
+ 
+  
   if (data) {
     slug = data.slug
     $.getJSON(`${proxyURL+url}/${slug}.json`, ({ name, openfarm_data: { attributes }, median_days_to_first_harvest, scientific_names }) => {
@@ -192,7 +198,7 @@ async function pageContent() {
       sun.textContent = `Sun requirements: ${sun_requirements}`;
       sowingMethod.textContent = `Sowing method: ${sowing_method}`;
       harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
-        
+      
     });
   } else {
     errorMsg()
