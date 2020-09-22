@@ -206,14 +206,12 @@ async function pageContent() {
   // let dateCalc;
   const data = await listSearcher(params)
 
-  month.textContent = `Month to plant (searched month): ${params.month}`;
-  region.textContent = `Region grown (searched region): ${params.region}`;
- 
+  
   
   if (data) {
     slug = data.slug
-    $.getJSON(`${proxyURL+url}/${slug}.json`, ({ name, openfarm_data: { attributes }, median_days_to_first_harvest, scientific_names }) => {
-      const { description, height, sun_requirements, sowing_method, main_image_path, row_spacing } = attributes;
+    $.getJSON(`${proxyURL+url}/${slug}.json`, ({ name="", openfarm_data: { attributes={} }, median_days_to_first_harvest="", scientific_names=[]}) => {
+      const { description="", height="", sun_requirements="", sowing_method="", main_image_path="", row_spacing="" } = attributes;
       spacingCalc = row_spacing;
       dateCalc = median_days_to_first_harvest;
       plantName.textContent = name;
@@ -227,6 +225,10 @@ async function pageContent() {
       harvest.textContent = `Harvest from: ${median_days_to_first_harvest} days`;
       
     });
+
+    month.textContent = `Month to plant (searched month): ${params.month}`;
+    region.textContent = `Region grown (searched region): ${params.region}`;
+
   } else {
     errorMsg()
     hideCalcs()
