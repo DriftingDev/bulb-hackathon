@@ -36,28 +36,37 @@ async function domQuery(selectedMonth) {
   const urlParams = itemLink.href
 }
 
+function urlMatcher(url, term) {
+  if(url.match(`/${term}(.*)/`)) {
+    regex = "(.*)"
+    const match = url.match(term + regex);
+    return match[0];
+  }
+  return null;
+}
+
 //queries the ABC site to build a list of plants according to the passed month and region.
 async function getVeggieList(region, month) {
-  let abcUrl = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
+  const abcUrl = "https://www.abc.net.au/gardening/vegie-guide-zones/9796680"
   let queryDOM = await fetch(proxyURL + abcUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
   
-  let linkList = Array.from(queryDOM.querySelectorAll("a"));
-  let filteredList = linkList.filter(a => new RegExp("\\b" + region + "\\b").test(a.href));
-  let link = filteredList[0].href.slice(21);
+  const firstLinkList = Array.from(queryDOM.querySelectorAll("a"));
+  let firstFilteredList = firstLinkList.filter(a => new RegExp("\\b" + region + "\\b").test(a.href));
+  const regionLink = urlMatcher(firstFilteredList[0].href, "gardening")
 
-  abcUrl = "https://www.abc.net.au" + link;
-  queryDOM = await fetch(proxyURL + abcUrl)
+  const regionUrl = "https://www.abc.net.au/" + regionLink;
+  queryDOM = await fetch(proxyURL + regionUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
-  linkList = Array.from(queryDOM.querySelectorAll("a"));
-  filteredList = linkList.filter(a => new RegExp("\\b" + month + "\\b").test(a.href));
-  link = filteredList[0].href.slice(21);
+  const secondLinkList = Array.from(queryDOM.querySelectorAll("a"));
+  let secondFilteredList = secondLinkList.filter(a => new RegExp("\\b" + month + "\\b").test(a.href));
+  const monthLink = urlMatcher(secondFilteredList[0].href, "gardening")
   
-  abcUrl = "https://www.abc.net.au" + link;
-  queryDOM = await fetch(proxyURL + abcUrl)
+  const monthUrl = "https://www.abc.net.au/" + monthLink;
+  queryDOM = await fetch(proxyURL + monthUrl)
     .then(resp => resp.text())
     .then(result => domParser.parseFromString(result, "text/html"));
 
