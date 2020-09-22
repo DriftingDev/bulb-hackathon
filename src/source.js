@@ -45,7 +45,7 @@ async function getVeggieList(region, month) {
   
   const firstLinkList = Array.from(queryDOM.querySelectorAll("a"));
   let firstFilteredList = firstLinkList.filter(a => new RegExp("\\b" + region + "\\b").test(a.href));
-  const regionLink = firstFilteredList[0].href.slice(21);
+  const regionLink = firstFilteredList[0].outerHTML.slice(9,45);
 
   const regionUrl = "https://www.abc.net.au" + regionLink;
   queryDOM = await fetch(proxyURL + regionUrl)
@@ -54,7 +54,7 @@ async function getVeggieList(region, month) {
 
   const secondLinkList = Array.from(queryDOM.querySelectorAll("a"));
   let secondFilteredList = secondLinkList.filter(a => new RegExp("\\b" + month + "\\b").test(a.href));
-  const monthLink = secondFilteredList[0].href.slice(21);
+  const monthLink = secondFilteredList[0].outerHTML.slice(9,49);
   
   const monthUrl = "https://www.abc.net.au" + monthLink;
   queryDOM = await fetch(proxyURL + monthUrl)
