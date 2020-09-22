@@ -3,11 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <title>Bulb</title>
 </head>
 <body>
-  <h1>Bulb</h1>
+  <nav class="navbar navbar-dark bg-dark justify-content-between">
+    <a class="navbar-brand">
+      <img src="img/search-3-512.png" width="30" height="30" alt="search icon">
+    </a>
+    <h1 style="font-size: 2rem;" class="navbar-brand">Bulb</h1>
+    <a class="navbar-brand">
+      <img src="img/question-mark-512.png" width="30" height="30" alt="question icon">
+    </a>
+  </nav>
+  
 
   <form onsubmit="searchFunction(event)">
     <label for="search">Search:</label>
