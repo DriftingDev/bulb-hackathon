@@ -59,8 +59,42 @@
     <form>
       <div class="form-group d-flex justify-content-between">
         <label class="font-weight-bold" for="region">Choose your climate region:</label>
-        <button type="button" class="btn btn-info">?</button> <!-- User can find out what region they are in using a popup here -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#regionModal">?</button>
       </div>
+
+      <div class="modal fade" id="regionModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Choose your region</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Select your region from the box using these maps as a guide:</p>
+              <h3>Arid Zone</h3>
+              <img src="img/arid.jpg" alt="arid zone map" class="img-fluid">
+              <hr class="my-3">
+              <h3>Tropical Zone</h3>
+              <img src="img/tropical.jpg" alt="tropical zone map" class="img-fluid">
+              <hr class="my-3">
+              <h3>Subtropical Zone</h3>
+              <img src="img/subtropical.jpg" alt="subtropical zone map" class="img-fluid">
+              <hr class="my-3">
+              <h3>Temperate Zone</h3>
+              <img src="img/temperate.jpg" alt="temperate zone map" class="img-fluid">
+              <hr class="my-3">
+              <h3>Cool Zone</h3>
+              <img src="img/cool.jpg" alt="cool zone map" class="img-fluid">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group">
         <select multiple class="form-control" data-toggle="collapse" data-target="#monthDrop" name="region" id="region" onchange="resetMonth()">
           <option value="arid">Arid</option>
@@ -76,8 +110,28 @@
       <form>
         <div class="form-group d-flex justify-content-between">
           <label class="font-weight-bold" for="month">Month:</label>
-        <button class="btn btn-info" type="button">?</button> <!-- User can choose which month of planting they wish to see here --> 
+        <button class="btn btn-info" type="button" data-toggle="modal" data-target="#monthModal">?</button> <!-- User can choose which month of planting they wish to see here --> 
         </div>
+
+        <div class="modal fade" id="monthModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Select your month</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class="lead">When you select a month, Bulb will create a list of plants that can be planted in that month in the previously selected zone.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group">
           <select class="form-control" name="month" id="month" onchange="domQuery()" onfocus="removeCollapse()">
             <option value="nil">Select one--</option> <!-- When a user selects, remove this option --> 
