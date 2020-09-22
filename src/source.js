@@ -8,23 +8,32 @@ let retry = 0
 
 // INDEX PAGE JS
 
+function loader(target) {
+  target.innerHTML = `
+  <h2 class="list-group-item">Loading</h2>
+  `
+}
+
 // dynamically renders a list of plants using the passed month and a queried region when
 // a month is selected from the drop down in index.html
-async function domQuery(selectedMonth) {
+async function domQuery() {
+  loader(list);
+
   let selectedRegion = document.querySelector("#region").value
+  let selectedMonth = document.querySelector("#month").value
   try {
     veggieList = await getVeggieList(selectedRegion, selectedMonth);
     
     list.innerHTML = ""
     veggieList.forEach((item) => {
-      listItem = document.createElement("li")
-
       itemLink = document.createElement("a")
       itemLink.href = `plant.html?plant=${item.toLowerCase()}&month=${selectedMonth}&region=${selectedRegion}`
+      itemLink.classList.add("list-group-item") 
+      itemLink.classList.add("list-group-item-action")
+      itemLink.classList.add("font-weight-bold")
       itemLink.innerText = item
       
-      listItem.appendChild(itemLink)
-      list.appendChild(listItem);
+      list.appendChild(itemLink);
     })
   } catch {
     list.innerHTML = ""
@@ -77,6 +86,8 @@ async function getVeggieList(region, month) {
 
 async function searchFunction(event) {
   event.preventDefault();
+  loader(searchList);
+
   let searchTerm = document.querySelector("#search").value
   let searchDOM = await fetch(proxyURL + "https://www.growstuff.org/crops/search?term=" + searchTerm)
     .then(resp => resp.text())
@@ -95,24 +106,31 @@ function searchListBuilder(nodeList) {
     `
   } else {
     nodeList.forEach((node) => {
-      console.log(node)
       title = node.querySelector("h3").querySelector("a").innerText
-      listItem = document.createElement("li")
 
       itemLink = document.createElement("a")
       itemLink.href = `plant.html?plant=${title}&month=unspecified&region=unspecified`
+      itemLink.classList.add("list-group-item") 
+      itemLink.classList.add("list-group-item-action")
+      itemLink.classList.add("font-weight-bold")
+      itemLink.classList.add("col-sm-7")
       itemLink.innerText = title
+      console.log(itemLink)
       
-      listItem.appendChild(itemLink)
-      searchList.appendChild(listItem);
+      searchList.appendChild(itemLink);
     })
   }
 } 
 
 //Resets the month each time the region is changed.
-let resetMonth = () => {
-  document.querySelector("#month").value = "nil"
-  list.innerHTML = ""
+function resetMonth() {
+  document.querySelector("#month").value = "nil";
+  document.querySelector("#month").focus()
+  list.innerHTML = "";
+}
+
+function removeCollapse() {
+  document.querySelector("#region").removeAttribute('data-toggle')
 }
 
 //PLANT PAGE JS
