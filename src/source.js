@@ -254,9 +254,9 @@ function hideNaCards() {
   const cards = document.querySelector(".card-columns").querySelectorAll(".card");
   console.log(cards)
   cards.forEach((card) => {
-    content = card.querySelector(".card-text").innerHTML
+    content = card.querySelector(".card-text").innerHTML.split(" ")[0]
     console.log(content);
-    if(content.split(" ")[0] == "N/A" || "unspecified") {
+    if(content === "N/A" || content === "unspecified") {
       card.classList.add("hideMe");
     }
   })
