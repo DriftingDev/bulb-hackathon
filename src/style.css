@@ -41,4 +41,32 @@ h1 {
     background-position: 0% 50%;
   }
 }
+
+@media (min-width: 576px) {
+  .card-columns {
+    -webkit-column-count: 1;
+            column-count: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-columns {
+    -webkit-column-count: 2;
+            column-count: 2;
+  }
+}
+
+@media (min-width: 992px) {
+  .card-columns {
+    -webkit-column-count: 3;
+            column-count: 3;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-columns {
+    -webkit-column-count: 3;
+            column-count: 3;
+  }
+}
 /*# sourceMappingURL=style.css.map */
