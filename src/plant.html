@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" href="style.css"/>
       <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
    </head>
-   <body onload="pageContent()">
+   <body class="background" onload="pageContent()">
 
       <nav class="navbar navbar-dark bg-dark justify-content-between">
          <a class="navbar-brand ml-1" href="https://awesome-ardinghelli-487bcb.netlify.app/">
@@ -24,8 +24,14 @@
          </a>
       </nav>
 
+      <div class="loadingDiv d-flex justify-content-center">
+         <div class="spinner-border mt-5" role="status">
+            <span class="sr-only">Loading...</span>
+         </div>
+      </div>
+
       <div class="collapse" id="helpJumbo">
-         <div class="jumbotron d-flex flex-column align-items-center">
+         <div class="jumbotron mt-5 mx-5 d-flex flex-column align-items-center">
            <div class="col-sm-7">
              <div class="d-flex justify-content-center mb-4">
                <img src="img/logo.png" class="img-fluid" alt="bulb logo">
@@ -52,7 +58,7 @@
       <div class="" id="errorBoi">
       </div>
       
-      <div class="jumbotron d-flex flex-column align-items-center" id="contentBoi">
+      <div class="jumbotron mt-5 mx-5 d-flex flex-column align-items-center hideMe" id="contentBoi">
          <div class="col-sm-7">
             <h1 class="plantName display-4"></h1>
             <p class="scientificName lead"></p>

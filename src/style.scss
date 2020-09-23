@@ -1,11 +1,38 @@
-body {
-    background-color: rgba(2, 67, 2, 0.394);
-}
-
 h1 {
     color: black;
   }
 
 .imageWrapper {
     max-width: 500px;
+}
+
+.hideMe {
+    display: none!important;
+}
+
+// BACKGROUND ANIMATION
+
+.background {
+    background: linear-gradient(270deg, #13c798, #0b9b76);
+    background-size: 400% 400%;
+
+    -webkit-animation: jumbotron2 46s ease infinite;
+    -moz-animation: jumbotron2 46s ease infinite;
+    animation: jumbotron2 46s ease infinite;
+}
+
+@-webkit-keyframes jumbotron2 {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes jumbotron2 {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes jumbotron2 {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
 }
