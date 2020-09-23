@@ -228,7 +228,7 @@ async function pageContent() {
       harvest.textContent = `${median_days_to_first_harvest == null ? "N/A" : median_days_to_first_harvest} days`;
       
       if (row_spacing == "N/A") {
-        hideCalcs();
+        hideAreaCalc();
       }
 
       hideNaCards();
@@ -279,6 +279,12 @@ function hideCalcs() {
   var calculators = document.getElementById("calculators");
 
   calculators.innerHTML= "";
+}
+
+function hideAreaCalc() {
+  let areaCalc = document.getElementById("areaCalculator");
+
+  areaCalc.innerHTML= "";
 }
 
 
