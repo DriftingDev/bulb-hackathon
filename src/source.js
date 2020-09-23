@@ -231,11 +231,13 @@ async function pageContent() {
         hideCalcs();
       }
 
+      hideNaCards();
+
     });
 
     month.textContent = params.month;
     region.textContent = params.region;
-
+    
     loader.classList.add("hideMe");
     contentDiv.classList.remove("hideMe")
 
@@ -244,8 +246,21 @@ async function pageContent() {
     errorMsg()
     hideCalcs()
   }
+
+  
 }
 
+function hideNaCards() {
+  const cards = document.querySelector(".card-columns").querySelectorAll(".card");
+  console.log(cards)
+  cards.forEach((card) => {
+    content = card.querySelector(".card-text").innerHTML
+    console.log(content);
+    if(content.split(" ")[0] == "N/A" || "unspecified") {
+      card.classList.add("hideMe");
+    }
+  })
+}
 
 function errorMsg() {
   document.querySelector("#contentBoi").className =""
